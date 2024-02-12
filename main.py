@@ -41,7 +41,7 @@ labels_test_data = keras.utils.to_categorical(labels_test_data, number_classes)
 features_train_data = features_train_data / 255.0
 features_test_data = features_test_data / 255.0
 
-#%%
+#%% Shaping data
 
 features_train_data = np.array(features_train_data)
 features_test_data = np.array(features_test_data)
@@ -49,7 +49,7 @@ features_test_data = np.array(features_test_data)
 features_train_data = features_train_data.reshape(features_train_data.shape[0], -1)
 features_test_data = features_test_data.reshape(features_test_data.shape[0], -1)
 
-#%%
+#%% Creating Neural Network
 
 model = Sequential()
 
@@ -61,28 +61,23 @@ model.add(Dense(units=10, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 model.summary()
 
-#%%
+#%% Training
 
 model.fit(x=features_train_data, y=labels_train_data, batch_size=512, epochs=10)
 
-#%%
+#%% Loss Function and Accuracy Performance
 
 test_loss, test_acc = model.evaluate(features_test_data, labels_test_data)
 print("Test Loss: {}, Test Accuracy: {}".format(test_loss, test_acc))
 
-#%%
+#%% Prediction
 
 prediction = model.predict(features_test_data)
 prediction_classes = np.argmax(prediction, axis=1)
 print("\nPredictions:\n", prediction)
 print("\nPrediction Classes:\n", prediction_classes)
 
-#%%
-
-print(len(prediction))
-print(len(prediction_classes))
-
-#%%
+#%% Checking a Random Image Prediction in Test Dataset
 
 random_number = np.random.choice(len(prediction))
 
@@ -105,7 +100,7 @@ if (np.argmax(labels_test_data, axis=1)[random_number]) == (np.argmax(prediction
     print("\nTHE PREDICTION IS CORRECT!\n")
     print("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
     
-#%%
+#%% Checking a Random Image Prediction in Test Dataset with Plotting
 
 random_number = np.random.choice(len(features_test_data))
 
@@ -117,7 +112,7 @@ label_sample_pred_class = prediction_classes[random_number]
 plt.title("Predicted: {}, Real Label: {}".format(label_sample_pred_class, label_sample_true))
 plt.imshow(feature_sample.reshape(28, 28), cmap='gray')
 
-#%%
+#%% Prediction of External Image
 
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 
